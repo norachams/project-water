@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 # Generate a random timeline post
 name=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 8 ; echo '')
 email=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 8 ; echo '')@example.com

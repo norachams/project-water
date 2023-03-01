@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Timeline</title>
+  </head>
+  <body>
+      <header class="nav-bar">
+          <div class="nav-content">
+              <div class="topnav">
+                  <a class="active" href="#home">Home</a>
+                  <a href="hobbies">Hobbies</a>
+                  <a href="timeline">Timeline</a>
+                  <div class="nav-logo">
+                      <a href="/"><img src="./static/img/logo.svg"></a>
+                  </div>
+              </div>
+          </div>
+      </header>  
+      <h1>{{ title }}</h1>
+        <form id="timeline-form">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email">
+            </div>
+            <div class="form-group">
+                <label for="content">Content</label>
+                <textarea class="form-control" id="content" name="content"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Post</button>
+        </form>
+        <hr>
+        <div id="timeline-posts">
+            {% for post in timeline_posts %}
+                <div class="card">
+                    <div class="card-header">
+                        <strong>{{ post.name }}</strong> ({{ post.email }})
+                    </div>
+                    <div class="card-body">
+                        {{ post.content }}
+                    </div>
+                </div>
+                <br>
+            {% endfor %}
+        </div>
+    
+        <script>
+            function getTimelinePosts() {
+                fetch('/api/timeline_post')
+                    .then(response => response.json())
+                    .then(data => {
+                        const timelinePostsDiv = document.getElementById('timeline-posts');
+                        const newTimelinePostsHtml = data.timeline_posts.map(post => `
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong>${post.name}</strong> (${post.email})
+                                </div>
+                                <div class="card-body">
+                                    ${post.content}
+                                </div>
+                            </div>
+                            <br>
+                        `).join('');
+                        timelinePostsDiv.innerHTML = newTimelinePostsHtml;
+                    });
+            }
+    
+            // Call getTimelinePosts every 5 seconds to update the page with new data
+            setInterval(getTimelinePosts, 5000);
+    
+            // Handle form submission
+            const timelineForm = document.getElementById('timeline-form');
+            timelineForm.addEventListener('submit', event => {
+                event.preventDefault();
+                const formData = new FormData(timelineForm);
+                fetch('/api/timeline_post', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Update the timeline posts with the new post
+                        const timelinePostsDiv = document.getElementById('timeline-posts');
+                        const newPostHtml = `
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong>${data.name}</strong> (${data.email})
+                                </div>
+                                <div class="card-body">
+                                    ${data.content}
+                                </div>
+                            </div>
+                            <br>
+                        `;
+                        timelinePostsDiv.innerHTML = newPostHtml + timelinePostsDiv.innerHTML;
+                    });
+            });
+        </script>
+    
+    
+  </body>
+</html>
