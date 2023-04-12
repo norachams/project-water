@@ -13,6 +13,7 @@ mydb = MySQLDatabase(os.getenv("MYSQL_DATABASE"),
         port=3306   
 )
 
+
 print(mydb)
 
 class TimelinePost(Model):
@@ -57,3 +58,5 @@ def get_time_line_post():
 @app.route('/timeline')
 def timeline():
      return render_template('timeline.html', title="Timeline")
+
+mydb.create_tables([TimelinePost], safe=True)
