@@ -3,11 +3,9 @@ on:
   push:
     branches:
       - main
-
 pull request:
   branches:
     - main
-
 jobs:
   test:
     runs-on: ubuntu-20.04
@@ -15,19 +13,19 @@ jobs:
     env:
       TESTING: true
     steps:
-      - name: Checkout Repositorv   
+      - name: Checkout Repository   
         uses: actions/checkout@v3
 
-      - name: Setup Puthon
-      uses: actions/setup-python@v4 
-      with:
-        python-version: '3.6.8' # Change to vour desired Python version
+      - name: Setup Python
+        uses: actions/setup-python@v4 
+        with:
+          python-version: '3.6.8' # Change to vour desired Python version
 
       - name: Setup Pthon Virtual Environment 
         run: python -m venv python3-virtualenv
 
       - name: Install Dependencies
-        run: python3-virtualenv/bin/pip install -r requirements.txt
+        run: python3-virtualenv/bin/pip3 install -r requirements.txt
 
       - name: Run Tests 
         run: ./run_test.sh
