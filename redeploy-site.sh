@@ -17,4 +17,6 @@ pip install -r requirements.txt
 # Step: Start Flask server in a new detached Tmux session
 cd ..
 tmux new -s myflasksession 'cd project-water && flask run --host=0.0.0.0'
+
 echo "Reached"
+
