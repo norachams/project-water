@@ -3,6 +3,8 @@ from peewee import *
 
 from app import TimelinePost
 
+MODELS = [TimelinePost]
+
 #use an in-memory SQLite for tests
 test_db = SqliteDatabase(':memory:')
 
@@ -22,7 +24,7 @@ class TestTimelinePost(unittest.TestCase):
         assert first_post.id == 1
         second_post = TimelinePost.create(name ='Jane Doe', email='jane@example.com',content='Hello world, I am Jane!')
         assert second_post.id == 2
-    
+
         posts = TimelinePost.select()
         assert len(posts) == 2
         assert posts[0].name == 'John Doe'
