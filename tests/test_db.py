@@ -10,7 +10,7 @@ test_db = SqliteDatabase(':memory:')
 
 class TestTimelinePost(unittest.TestCase):
     def setUp(self):
-        test_db.bind (MODELS, blind_refs = False, bind_backrefs=False)
+        test_db.bind(MODELS, bind_refs=False, bind_backrefs=False)
 
         test_db.connect()
         test_db.create_tables(MODELS)
