@@ -1,5 +1,6 @@
 import unittest
 import os
+
 os.environ['TESTING'] = 'true'
 
 from app import app
@@ -38,12 +39,13 @@ class AppTestCase(unittest.TestCase):
         # TODO Add more tests relating to the timeline page
 
         # Test creating a new post
-        response = self.client.post("/api/timeline_post", data=json.dumps({"name": "Test User", "email": "test@example.com", "content": "Test content"}), content_type="application/json")
-        assert response.status_code == 201
-        assert response.is_json
-        json = response.get_json()
-        assert "id" in json
-        assert json["id"] > 0
-        assert json["name"] == "Test User"
-        assert json["email"] == "test@example.com"
-        assert json["content"] == "Test content"
+        
+            response = self.client.post("/api/timeline_post", data={"name": "Test User", "email": "test@example.com", "content": "Test content"})
+            assert response.status_code == 201
+            assert response.is_json
+            json = response.get_json()
+            assert "id" in json
+            assert json["id"] > 0
+            assert json["name"] == "Test User"
+            assert json["email"] == "test@example.com"
+            assert json["content"] == "Test content"
